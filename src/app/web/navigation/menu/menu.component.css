@@ -1,0 +1,106 @@
+.menu {
+    position: fixed;
+    top: 51px;
+    left: 0;
+    height: 100vh;
+    width: 0;
+    /* Comienza con 0 para esconder el menú */
+    overflow-x: hidden;
+    padding: 0;
+    transition: width 0.3s ease, padding 0.3s ease, visibility 0.3s, opacity 0.3s;
+    visibility: hidden;
+    opacity: 0;
+    z-index: 1000;
+}
+
+.menu.is-open {
+    width: 20rem;
+    padding: 1rem;
+    visibility: visible;
+    opacity: 1;
+}
+
+.nav-item {
+    padding: 0.5rem 0;
+}
+
+.menu-link {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.3s, padding 0.3s;
+    white-space: nowrap;
+}
+
+.menu-link i {
+    font-size: 1.2rem;
+}
+
+.menu-text {
+    visibility: hidden;
+    opacity: 0;
+    margin-left: 0.5rem;
+    transition: opacity 0.3s, visibility 0.3s;
+    font-size: 14px;
+}
+
+.menu.is-open .menu-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+.menu.is-open .menu-link i {
+    margin-right: 1rem;
+}
+
+.menu.is-open .menu-link {
+    padding-left: 1.5rem;
+}
+
+.submenu {
+    transition: height 0.3s ease, opacity 0.3s ease;
+    /* Transición para altura y opacidad */
+    height: 0;
+    /* Comienza con altura 0 */
+    opacity: 0;
+    /* Comienza con opacidad 0 */
+    overflow: hidden;
+    /* Oculta el contenido */
+}
+
+.submenu.show {
+    height: auto;
+    /* Ajusta a la altura automática cuando se muestra */
+    opacity: 1;
+    /* Cambia a opacidad 1 cuando se muestra */
+    transition: height 0.3s ease, opacity 0.3s ease;
+    /* Asegúrate de mantener la misma transición */
+}
+
+
+.menu-header {
+    margin: 16px 0;
+    /* Separación entre menús padres */
+    color: var(--bs-body-color);
+    /* Se adapta al modo oscuro o claro */
+}
+
+.submenu-item {
+    margin: 8px 0;
+    /* Separación entre ítems de menú hijo */
+}
+
+.submenu-link {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.submenu-link i {
+    margin-right: 8px;
+    /* Espacio entre ícono y texto */
+}

@@ -1,0 +1,31 @@
+<!-- dynamic-modal.component.html -->
+<div class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{Tabla}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="cancel()"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="form">
+                    <div *ngFor="let field of formSchema.fields" class="mb-3">
+                        <label [attr.for]="field.name" class="form-label disabled">{{ field.label }}</label>
+                        <input [type]="field.type" class="form-control" [formControlName]="field.name"
+                            [id]="field.name">
+                        <div *ngIf="form.get(field.name)?.invalid && form.get(field.name)?.touched" class="text-danger">
+                            <!-- Mensaje de error personalizado o genérico -->
+                            Por favor, revise el campo {{ field.label }}.
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button *ngIf="crudd === 'C'" type="button" class="btn btn-success" (click)="onSave()">Guardar</button>
+                <button *ngIf="crudd === 'U'" type="button" class="btn btn-primary" (click)="onEdit()">Editar</button>
+                <button *ngIf="crudd === 'D'" type="button" class="btn btn-danger"
+                    (click)="onDelete()">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>

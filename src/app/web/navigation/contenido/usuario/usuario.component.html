@@ -1,0 +1,29 @@
+<div class="container mt-4">
+    <h3 class="mb-3">Usuarios</h3>
+    <button class="btn btn-outline-primary" (click)="Crudd('C')">Nuevo</button>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <!-- Ajusta los encabezados según tus campos -->
+                <th>Acciones</th>
+                <th>Email</th>
+                <th>contraseña</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data">
+                <td>
+                    <button class="btn btn-sm btn-outline-primary me-1" (click)="Crudd('U', item)">
+                        <i class="bi bi-pencil"></i>
+                    </button>
+                    <!-- Botón para eliminar -->
+                    <button class="btn btn-sm btn-outline-danger" (click)="Crudd('D', item)">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </td>
+                <td>{{ item.email }}</td>
+                <td>{{ item.contrasena }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

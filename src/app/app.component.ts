@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -9,4 +9,21 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'Facturas';
+  constructor(private router: Router) {
+
+  }
+  ngOnInit(): void {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        if (typeof document !== 'undefined') {
+          const loader = document.getElementById('global-loader');
+          if (loader) {
+            loader.style.display = 'none';
+          }
+        }
+      }
+    });
+  }
+
+
 }

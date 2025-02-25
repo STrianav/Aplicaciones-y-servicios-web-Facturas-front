@@ -1,0 +1,11 @@
+<div class="app-container" [ngClass]="{ 'menu-open': menuOpen }">
+    <app-navbar (toggleMenu)="toggleMenu()"></app-navbar>
+
+    <main>
+        <app-menu [isOpen]="menuOpen"></app-menu>
+    </main>
+
+    <body [ngStyle]="{ 'margin-left': menuOpen ? '20rem' : '0' }">
+        <router-outlet />
+    </body>
+</div>

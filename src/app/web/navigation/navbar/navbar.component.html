@@ -1,0 +1,45 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <!-- Texto "Home" a la izquierda -->
+        <button class="btn btn-link navbar-brand me-3" (click)="AbrirMenu()" style="color: inherit;">
+            <i class="bi bi-list"></i>
+        </button>
+
+
+        <!-- Contenedor para centrar el logo -->
+        <div class="d-flex justify-content-center flex-grow-1">
+            <a class="navbar-brand" href="#">
+                <img src="" alt="Logo" height="24">
+            </a>
+        </div>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="ms-auto d-flex align-items-center">
+            <a class="text-body me-2" onclick="toggleTheme()">
+                <i class="fa-solid fa-bell" style="font-size: 15px;"></i>
+            </a>
+            <a href="#" class="d-flex align-items-center justify-content-center text-decoration-none dropdown-toggle"
+                id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="background-image: none;">
+                <!-- Círculo con inicial -->
+                <div id="userInitial" class="rounded-circle text-body d-flex align-items-center justify-content-center"
+                    style="width: 35px; height: 35px; border: 2px solid currentColor; background-color: transparent;">
+                    <!-- Inicial del correo -->
+                    {{'SA'}}
+                </div>
+            </a>
+            <!-- Menú desplegable -->
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                <li><a class="dropdown-item" (click)="abrirPerfil()" style="cursor: pointer;">Perfil</a></li>
+                <li><a class="dropdown-item" href="#">Configuraciones</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" (click)="logout()" style="cursor: pointer;">Cerrar sesión</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
