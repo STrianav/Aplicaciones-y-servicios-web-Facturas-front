@@ -15,17 +15,16 @@ export class UnidadmedicionComponent {
   Tabla: string = 'unidadmedicion';
 
   constructor(private api: ApiService,
-     private modal: FormularioService) { }
+    private modal: FormularioService) { }
 
   ngOnInit(): void {
     this.TraerTabla();
   }
 
   async TraerTabla() {
-    try{
+    try {
       let data = await firstValueFrom(this.api.TraerTabla(this.Tabla));
       this.data = data;
-      console.log('datos:',data)
     } catch (error) {
       console.error('Error al obtener la tabla:', error);
     }
@@ -36,19 +35,19 @@ export class UnidadmedicionComponent {
     if (tipo === 'C') {
       formSchema = {
         fields: [
-          { name: 'nombre', label: 'Nombre', type: 'text', value: '', validators: ['required'] }
+          { name: 'descripcion', label: 'Descripcion', type: 'text', value: '', validators: ['required'] }
         ]
       };
     } else if (tipo === 'U') {
       formSchema = {
         fields: [
-          { name: 'nombre', label: 'Nombre', type: 'text', value: '', validators: ['required'] }
+          { name: 'descripcion', label: 'Descripcion', type: 'text', value: row.descripcion, validators: ['required'] }
         ]
       };
     } else if (tipo === 'D') {
       formSchema = {
         fields: [
-          { name: 'nombre', label: 'Nombre', type: 'text', value: '', validators: ['required'] }
+          { name: 'descripcion', label: 'Descripcion', type: 'text', value: row.descripcion, validators: ['required'] }
         ]
       };
     }

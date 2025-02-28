@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { ApiService } from '../../../../Api/api.service';
 import { FormularioService } from '../../Formulario/formulario.service';
 import { firstValueFrom } from 'rxjs';
+import { ModuloGeneralModule } from '../../../../shared/modulo-general.module';
 
 @Component({
   selector: 'app-tipoindicador',
-  imports: [],
+  imports: [ModuloGeneralModule],
   templateUrl: './tipoindicador.component.html',
   styleUrl: './tipoindicador.component.css'
 })
@@ -14,14 +15,14 @@ export class TipoindicadorComponent {
   Tabla: string = 'frecuencia';
 
   constructor(private api: ApiService,
-     private modal: FormularioService) { }
+    private modal: FormularioService) { }
 
   ngOnInit(): void {
     this.TraerTabla();
   }
 
   async TraerTabla() {
-    try{
+    try {
       let data = await firstValueFrom(this.api.TraerTabla(this.Tabla));
       this.data = data;
     } catch (error) {

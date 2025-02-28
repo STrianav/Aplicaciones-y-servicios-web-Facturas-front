@@ -12,17 +12,17 @@ import { ModuloGeneralModule } from '../../../../shared/modulo-general.module';
 })
 export class RepresenvisualComponent {
   data: any;
-  Tabla: string = 'frecuencia';
+  Tabla: string = 'represenvisual';
 
   constructor(private api: ApiService,
-     private modal: FormularioService) { }
+    private modal: FormularioService) { }
 
   ngOnInit(): void {
     this.TraerTabla();
   }
 
   async TraerTabla() {
-    try{
+    try {
       let data = await firstValueFrom(this.api.TraerTabla(this.Tabla));
       this.data = data;
     } catch (error) {
@@ -41,13 +41,13 @@ export class RepresenvisualComponent {
     } else if (tipo === 'U') {
       formSchema = {
         fields: [
-          { name: 'nombre', label: 'Nombre', type: 'text', value: '', validators: ['required'] }
+          { name: 'nombre', label: 'Nombre', type: 'text', value: row.nombre, validators: ['required'] }
         ]
       };
     } else if (tipo === 'D') {
       formSchema = {
         fields: [
-          { name: 'nombre', label: 'Nombre', type: 'text', value: '', validators: ['required'] }
+          { name: 'nombre', label: 'Nombre', type: 'text', value: row.nombre, validators: ['required'] }
         ]
       };
     }

@@ -42,13 +42,13 @@ export class FrecuenciaComponent {
     } else if (tipo === 'U') {
       formSchema = {
         fields: [
-          { name: 'nombre', label: 'Nombre', type: 'text', value: '', validators: ['required'] }
+          { name: 'nombre', label: 'Nombre', type: 'text', value: row.nombre, validators: ['required'] }
         ]
       };
     } else if (tipo === 'D') {
       formSchema = {
         fields: [
-          { name: 'nombre', label: 'Nombre', type: 'text', value: '', validators: ['required'] }
+          { name: 'nombre', label: 'Nombre', type: 'text', value: row.nombre, validators: ['required'] }
         ]
       };
     }
