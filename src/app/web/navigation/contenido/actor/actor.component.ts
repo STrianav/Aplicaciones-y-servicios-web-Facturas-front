@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
+import { ModuloGeneralModule } from '../../../../shared/modulo-general.module';
 import { ApiService } from '../../../../Api/api.service';
 import { FormularioService } from '../../Formulario/formulario.service';
 import { firstValueFrom } from 'rxjs';
-import { ModuloGeneralModule } from '../../../../shared/modulo-general.module';
 
 @Component({
-  selector: 'app-tipoindicador',
+  selector: 'app-actor',
   imports: [ModuloGeneralModule],
-  templateUrl: './tipoindicador.component.html',
-  styleUrl: './tipoindicador.component.css'
+  templateUrl: './actor.component.html',
+  styleUrl: './actor.component.css'
 })
-export class TipoindicadorComponent {
+export class ActorComponent {
   data: any;
-  Tabla: string = 'tipoindicador';
+  Tabla: string = 'actor';
 
   constructor(private api: ApiService,
     private modal: FormularioService) { }
@@ -25,6 +25,7 @@ export class TipoindicadorComponent {
     try {
       let data = await firstValueFrom(this.api.TraerTabla(this.Tabla));
       this.data = data;
+      console.log('datos:', data)
     } catch (error) {
       console.error('Error al obtener la tabla:', error);
     }
@@ -35,7 +36,8 @@ export class TipoindicadorComponent {
     if (tipo === 'C') {
       formSchema = {
         fields: [
-          { name: 'nombre', label: 'Nombre', type: 'text', value: '', validators: ['required'] }
+          { name: 'nombre', label: 'Nombre', type: 'text', value: '', validators: ['required'] },
+          { name: 'fkidtipoactor', label: 'Tipo Actor', type: 'number', fk: true, value: '', strTable: "tipoactor", validators: ['required'] }
         ]
       };
     } else if (tipo === 'U') {
@@ -47,7 +49,8 @@ export class TipoindicadorComponent {
     } else if (tipo === 'D') {
       formSchema = {
         fields: [
-          { name: 'nombre', label: 'Nombre', type: 'text', value: '', validators: ['required'] }
+          { name: 'nombre', label: 'Nombre', type: 'text', value: row.nombre, validators: ['required'] },
+          { name: 'tipo actor', label: 'Nombre', type: 'text', value: row.fkidtipoactor, validators: ['required'] }
         ]
       };
     }
@@ -58,4 +61,3 @@ export class TipoindicadorComponent {
     });
   }
 }
-

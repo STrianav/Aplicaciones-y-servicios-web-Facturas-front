@@ -5,6 +5,7 @@ import { FormSchema } from '../../../../models/FormularioModal';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../../../Api/api.service';
 import { GeneralServiceService } from '../../../../GeneralService';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-formulariodinamico',
@@ -19,21 +20,41 @@ export class FormulariodinamicoComponent {
   activeModal = inject(NgbActiveModal);
   form!: FormGroup;
   originalData: any;
+  TablaForanea: any;
+  foreignData: { [key: string]: { value: number; label: string }[] } = {};
+
 
   constructor(private fb: FormBuilder, private api: ApiService, private generalService: GeneralServiceService) { }
 
   ngOnInit(): void {
     this.createForm();
+    this.loadForeignKeys();
     this.originalData = { ...this.form.value };
+
+    console.log(this.formSchema);
   }
 
   createForm(): void {
     const group: any = {};
     this.formSchema.fields.forEach(field => {
-      group[field.name] = [field.value, this.getValidators(field.validators)];
+      const value = this.castValueByType(field.value, field.type);
+      group[field.name] = [value, this.getValidators(field.validators)];
     });
     this.form = this.fb.group(group);
   }
+
+  castValueByType(value: any, type: string): any {
+    switch (type) {
+      case 'number':
+        return Number(value);
+      case 'boolean':
+        return value === 'true' || value === true;
+      case 'string':
+      default:
+        return String(value);
+    }
+  }
+
 
   getValidators(validators?: string[]) {
     const formValidators: any[] = [];
@@ -52,6 +73,7 @@ export class FormulariodinamicoComponent {
 
   onSave(): void {
     if (this.form.valid) {
+      console.log(this.form.value)
       this.api.CrearData(this.Tabla, this.form.value).subscribe((data) => {
       }, (error) => {
         if (error.status == 200) {
@@ -140,6 +162,38 @@ export class FormulariodinamicoComponent {
     } else {
       this.form.markAllAsTouched();
     }
+  }
+
+  loadForeignKeys() {
+    // Simulación de carga dinámica de datos foráneos
+    for (const field of this.formSchema.fields) {
+      if (field.fk) {
+        console.log(field);
+        this.getForeignData(field.strTable).then(data => {
+          this.foreignData[field.name] = data;
+        });
+      }
+    }
+  }
+
+  async getForeignData(table: string): Promise<any[]> {
+    // Aquí simulas (o llamás a un servicio real) para obtener los datos
+    const tabla = await firstValueFrom(this.api.TraerTabla(table));
+    return Promise.resolve(tabla || []);
+  }
+
+  onFkChange(event: Event, field: any) {
+  }
+
+  formatValue(content: any): number {
+    const keys = Object.keys(content);
+    return Number(content[keys[0]]);
+  }
+
+
+
+  formatOption(content: any): string {
+    return Object.values(content).join(' - ');
   }
 
   cancel() {

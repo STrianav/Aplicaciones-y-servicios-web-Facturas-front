@@ -3,6 +3,8 @@ export interface FormField {
     label: string;
     type: string;
     value: any;
+    fk: boolean;
+    strTable: string;
     validators?: string[];
 }
 

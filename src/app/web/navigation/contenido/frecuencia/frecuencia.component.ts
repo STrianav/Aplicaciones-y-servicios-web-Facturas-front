@@ -15,17 +15,17 @@ export class FrecuenciaComponent {
   Tabla: string = 'frecuencia';
 
   constructor(private api: ApiService,
-     private modal: FormularioService) { }
+    private modal: FormularioService) { }
 
   ngOnInit(): void {
     this.TraerTabla();
   }
 
   async TraerTabla() {
-    try{
+    try {
       let data = await firstValueFrom(this.api.TraerTabla(this.Tabla));
       this.data = data;
-      console.log('datos:',data)
+      console.log('datos:', data)
     } catch (error) {
       console.error('Error al obtener la tabla:', error);
     }

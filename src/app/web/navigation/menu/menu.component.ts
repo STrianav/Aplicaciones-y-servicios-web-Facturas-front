@@ -80,7 +80,68 @@ export class MenuComponent {
       menu_Descripcion: 'unidadmedicion',
       icono: 'bi bi-rulers',
       url_o_Componente: 'unidadmedicion'
+    },
+    {
+      menu_ID: 12,
+      menu_Descripcion: 'articulo',
+      icono: 'bi bi-file-earmark-text',
+      url_o_Componente: 'articulo'
+    },
+    {
+      menu_ID: 13,
+      menu_Descripcion: 'indicador',
+      icono: 'bi bi-graph-up',
+      url_o_Componente: 'indicador'
+    },
+    {
+      menu_ID: 14,
+      menu_Descripcion: 'literal',
+      icono: 'bi bi-journal-text',
+      url_o_Componente: 'literal'
+    },
+    {
+      menu_ID: 15,
+      menu_Descripcion: 'numeral',
+      icono: 'bi bi-list-ol',
+      url_o_Componente: 'numeral'
+    },
+    {
+      menu_ID: 16,
+      menu_Descripcion: 'paragrafo',
+      icono: 'bi bi-card-text',
+      url_o_Componente: 'paragrafo'
+    },
+    {
+      menu_ID: 17,
+      menu_Descripcion: 'resultadoindicador',
+      icono: 'bi bi-check2-circle',
+      url_o_Componente: 'resultadoindicador'
+    },
+    {
+      menu_ID: 18,
+      menu_Descripcion: 'variable',
+      icono: 'bi bi-sliders',
+      url_o_Componente: 'variable'
+    },
+    {
+      menu_ID: 19,
+      menu_Descripcion: 'variablesporindicador',
+      icono: 'bi bi-diagram-3',
+      url_o_Componente: 'variablesporindicador'
+    },
+    {
+      menu_ID: 20,
+      menu_Descripcion: 'rol_usuario',
+      icono: 'bi bi-person-badge',
+      url_o_Componente: 'rol_usuario'
+    },
+    {
+      menu_ID: 21,
+      menu_Descripcion: 'actor',
+      icono: 'bi bi-person-lines-fill',
+      url_o_Componente: 'actor'
     }
+    
   ]
 
   toggleMenu() {

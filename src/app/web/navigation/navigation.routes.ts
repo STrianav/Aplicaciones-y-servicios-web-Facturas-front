@@ -60,5 +60,56 @@ export default [
         path: 'unidadmedicion',
         loadComponent: () =>
             import('./contenido/unidadmedicion/unidadmedicion.component').then((m) => m.UnidadmedicionComponent)
+    },
+    {
+        path: 'articulo',
+        loadComponent: () =>
+            import('./contenido/articulo/articulo.component').then((m) => m.ArticuloComponent)
+    },
+    {
+        path: 'actor',
+        loadComponent: () =>
+            import('./contenido/actor/actor.component').then((m) => m.ActorComponent)
+    },
+    {
+        path: 'indicador',
+        loadComponent: () =>
+            import('./contenido/indicador/indicador.component').then((m) => m.IndicadorComponent)
+    },
+    {
+        path: 'literal',
+        loadComponent: () =>
+            import('./contenido/literal/literal.component').then((m) => m.LiteralComponent)
+    },
+    {
+        path: 'numeral',
+        loadComponent: () =>
+            import('./contenido/numeral/numeral.component').then((m) => m.NumeralComponent)
+    },
+    {
+        path: 'paragrafo',
+        loadComponent: () =>
+            import('./contenido/paragrafo/paragrafo.component').then((m) => m.ParagrafoComponent)
+    },
+    {
+        path: 'resultadoindicador',
+        loadComponent: () =>
+            import('./contenido/resultadoindicador/resultadoindicador.component').then((m) => m.ResultadoindicadorComponent)
+    },
+    {
+        path: 'variable',
+        loadComponent: () =>
+            import('./contenido/variable/variable.component').then((m) => m.VariableComponent)
+    },
+    {
+        path: 'variablesporindicador',
+        loadComponent: () =>
+            import('./contenido/variablesporindicador/variablesporindicador.component').then((m) => m.VariablesporindicadorComponent)
+    },
+    {
+        path: 'rol_usuario',
+        loadComponent: () =>
+            import('./contenido/rol-usuario/rol-usuario.component').then((m) => m.RolUsuarioComponent)
     }
+    
 ] as Routes
