@@ -1,1 +1,35 @@
-<p>articulo works!</p>
+<div class="container mt-4">
+  <h3 class="mb-3">Articulo</h3>
+  <button class="btn btn-outline-primary" (click)="Crudd('C')">Nuevo</button>
+  <table class="table table-bordered table-hover">
+      <thead class="table-dark">
+          <tr>
+              <!-- Ajusta los encabezados según tus campos -->
+              <th>Acciones</th>
+              <th>Id</th>
+              <th>Nombre</th>
+              <th>descripcion</th>
+              <th>fkidseccion</th>
+              <th>fkidsubseccion</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let item of data">
+              <td>
+                  <button class="btn btn-sm btn-outline-primary me-1" (click)="Crudd('U', item)">
+                      <i class="bi bi-pencil"></i>
+                  </button>
+                  <!-- Botón para eliminar -->
+                  <button class="btn btn-sm btn-outline-danger" (click)="Crudd('D', item)">
+                      <i class="bi bi-trash"></i>
+                  </button>
+              </td>
+              <td>{{ item.id }}</td>
+              <td>{{ item.nombre }}</td>
+              <td>{{ item.descripcion }}</td>
+              <td>{{ item.fkidseccion }}</td>
+              <td>{{ item.fkidsubseccion }}</td>
+          </tr>
+      </tbody>
+  </table>
+</div>

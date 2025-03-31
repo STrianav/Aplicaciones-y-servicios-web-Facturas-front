@@ -36,21 +36,22 @@ export class ActorComponent {
     if (tipo === 'C') {
       formSchema = {
         fields: [
-          { name: 'nombre', label: 'Nombre', type: 'text', value: '', validators: ['required'] },
-          { name: 'fkidtipoactor', label: 'Tipo Actor', type: 'number', fk: true, value: '', strTable: "tipoactor", validators: ['required'] }
+          { name: 'nombre', label: 'Nombre', type: 'text', value: row.nombre, validators: ['required'] },
+          { name: 'fkidtipoactor', label: 'Tipo de Actor', type: 'number', fk: true, value: row.fkidtipoactor, strTable: "tipoactor", validators: ['required'] }
         ]
       };
     } else if (tipo === 'U') {
       formSchema = {
         fields: [
-          { name: 'nombre', label: 'Nombre', type: 'text', value: '', validators: ['required'] }
+          { name: 'nombre', label: 'Nombre', type: 'text', value: row.nombre, validators: ['required'] },
+        { name: 'fkidtipoactor', label: 'Tipo de Actor', type: 'number', fk: true, value: row.fkidtipoactor, strTable: "tipoactor", validators: ['required'] }
         ]
       };
     } else if (tipo === 'D') {
       formSchema = {
         fields: [
           { name: 'nombre', label: 'Nombre', type: 'text', value: row.nombre, validators: ['required'] },
-          { name: 'tipo actor', label: 'Nombre', type: 'text', value: row.fkidtipoactor, validators: ['required'] }
+          { name: 'fkidtipoactor', label: 'Tipo de Actor', type: 'number', fk: true, value: row.fkidtipoactor, strTable: "tipoactor", validators: ['required'] }
         ]
       };
     }
