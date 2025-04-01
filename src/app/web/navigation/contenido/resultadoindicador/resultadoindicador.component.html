@@ -1,1 +1,33 @@
-<p>resultadoindicador works!</p>
+<div class="container mt-4">
+  <h3 class="mb-3">Resultados del Indicador</h3>
+  <button class="btn btn-outline-primary" (click)="Crudd('C')">Nuevo</button>
+  <table class="table table-bordered table-hover">
+      <thead class="table-dark">
+          <tr>
+              <th>Acciones</th>
+              <th>Id</th>
+              <th>Resultado</th>
+              <th>Fecha Cálculo</th>
+              <th>Fkidindicador</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let item of data">
+              <td>
+                  <!-- Botón para editar -->
+                  <button class="btn btn-sm btn-outline-primary me-1" (click)="Crudd('U', item)">
+                      <i class="bi bi-pencil"></i>
+                  </button>
+                  <!-- Botón para eliminar -->
+                  <button class="btn btn-sm btn-outline-danger" (click)="Crudd('D', item)">
+                      <i class="bi bi-trash"></i>
+                  </button>
+              </td>
+              <td>{{ item.id }}</td>
+              <td>{{ item.resultado }}</td>
+              <td>{{ item.fechacalculo | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+              <td>{{ item.fkidindicador }}</td>
+          </tr>
+      </tbody>
+  </table>
+</div>
