@@ -9,8 +9,8 @@
         </div>
 
         <!-- Menú dinámico -->
-        <div *ngFor="let menu of menus">
-            <div class="item" (click)="onMenuSelect(menu.url_o_Componente)">
+        <div class="item" *ngFor="let menu of menus">
+            <div  (click)="onMenuSelect(menu.url_o_Componente)">
                 <div class="content menu-item text-secondary px-3 py-2 rounded hoverable">
                     <i [ngClass]="menu.icono" class="me-2"></i>{{ menu.menu_Descripcion }}
                 </div>

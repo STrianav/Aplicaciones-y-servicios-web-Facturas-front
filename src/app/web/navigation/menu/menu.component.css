@@ -2,7 +2,7 @@
     position: fixed;
     top: 51px;
     left: 0;
-    height: 100vh;
+    height: 93vh;
     width: 0;
     /* Comienza con 0 para esconder el menú */
     overflow-x: hidden;
