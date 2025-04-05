@@ -14,7 +14,7 @@ export class NumeralComponent {
   data: any;
   Tabla: string = 'numeral';
 
-  constructor(private api: ApiService, private modal: FormularioService) {}
+  constructor(private api: ApiService, private modal: FormularioService) { }
 
   ngOnInit(): void {
     this.TraerTabla();
@@ -23,7 +23,6 @@ export class NumeralComponent {
   async TraerTabla() {
     try {
       this.data = await firstValueFrom(this.api.TraerTabla(this.Tabla));
-      console.log('Datos cargados:', this.data);
     } catch (error) {
       console.error('Error al obtener la tabla:', error);
     }

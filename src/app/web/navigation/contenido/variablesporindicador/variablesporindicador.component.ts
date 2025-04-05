@@ -23,8 +23,7 @@ export class VariablesporindicadorComponent {
 
   async TraerTabla() {
     try {
-      let data = await firstValueFrom(this.api.TraerTabla(this.Tabla));
-      this.data = data;
+      this.data = await firstValueFrom(this.api.TraerTabla(this.Tabla));
     } catch (error) {
       console.error('Error al obtener la tabla:', error);
     }
@@ -41,7 +40,7 @@ export class VariablesporindicadorComponent {
           { name: 'fkidindicador', label: 'Indicador', type: 'text', fk: true, value: '', strTable: "indicador", validators: ['required'] },
           { name: 'dato', label: 'Dato', type: 'text', value: '', validators: ['required'] },
           { name: 'fkemailusuario', label: 'Email Usuario', type: 'text', fk: true, value: '', strTable: "usuario", validators: ['required'] },
-          { name: 'fechacalculo', label: 'Fecha Dato', type: 'datetime-local', value: '', validators: ['required'] },
+          { name: 'fechadato', label: 'Fecha Dato', type: 'datetime-local', value: '', validators: ['required'] },
         ]
       };
     } else if (tipo === 'U' && row) {
@@ -51,22 +50,22 @@ export class VariablesporindicadorComponent {
           { name: 'fkidindicador', label: 'Indicador', type: 'text', fk: true, value: row.fkidindicador, strTable: "indicador", validators: ['required'] },
           { name: 'dato', label: 'Dato', type: 'text', value: row.dato, validators: ['required'] },
           { name: 'fkemailusuario', label: 'Email Usuario', type: 'text', fk: true, value: row.fkemailusuario, strTable: "usuario", validators: ['required'] },
-          { name: 'fechacalculo', label: 'Fecha Dato', type: 'datetime-local', value: row.fechacalculo, validators: ['required'] },
+          { name: 'fechadato', label: 'Fecha Dato', type: 'datetime-local', value: row.fechadato, validators: ['required'] },
         ]
       };
     } else if (tipo === 'D' && row) {
-      
-        formSchema = {
-          fields: [
-            { name: 'fkidvariable', label: 'Variable', type: 'text', fk: true, value: row.fkidvariable, strTable: "variable", validators: [''] },
-            { name: 'fkidindicador', label: 'Indicador', type: 'text', fk: true, value: row.fkidindicador, strTable: "indicador", validators: [''] },
-            { name: 'dato', label: 'Dato', type: 'text', value: row.dato, validators: [''] },
-            { name: 'fkemailusuario', label: 'Email Usuario', type: 'text', fk: true, value: row.fkemailusuario, strTable: "usuario", validators: [''] },
-            { name: 'fechacalculo', label: 'Fecha Dato', type: 'datetime-local', value: row.fechacalculo, validators: [''] },
-          ]
-        };
-      }
-    
+
+      formSchema = {
+        fields: [
+          { name: 'fkidvariable', label: 'Variable', type: 'text', fk: true, value: row.fkidvariable, strTable: "variable", validators: [''] },
+          { name: 'fkidindicador', label: 'Indicador', type: 'text', fk: true, value: row.fkidindicador, strTable: "indicador", validators: [''] },
+          { name: 'dato', label: 'Dato', type: 'text', value: row.dato, validators: [''] },
+          { name: 'fkemailusuario', label: 'Email Usuario', type: 'text', fk: true, value: row.fkemailusuario, strTable: "usuario", validators: [''] },
+          { name: 'fechadato', label: 'Fecha Dato', type: 'datetime-local', value: row.fechadato, validators: [''] },
+        ]
+      };
+    }
+
     const modalRef = this.modal.openDynamicModal(formSchema, tipo, this.Tabla);
 
     modalRef.result.then(() => {

@@ -23,9 +23,7 @@ export class SubseccionComponent {
 
   async TraerTabla() {
     try {
-      let data = await firstValueFrom(this.api.TraerTabla(this.Tabla));
-      this.data = data;
-      console.log('datos:', data)
+      this.data = await firstValueFrom(this.api.TraerTabla(this.Tabla));
     } catch (error) {
       console.error('Error al obtener la tabla:', error);
     }
@@ -36,7 +34,6 @@ export class SubseccionComponent {
     if (tipo === 'C') {
       formSchema = {
         fields: [
-          { name: 'id', label: 'ID', type: 'text', value: '', validators: ['required'] },
           { name: 'nombre', label: 'Nombre', type: 'text', value: '', validators: ['required'] }
         ]
       };

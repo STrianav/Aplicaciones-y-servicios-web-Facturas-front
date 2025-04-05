@@ -23,9 +23,7 @@ export class FuenteComponent {
 
   async TraerTabla() {
     try {
-      let data = await firstValueFrom(this.api.TraerTabla(this.Tabla));
-      this.data = data;
-      console.log('datos:', data)
+      this.data = await firstValueFrom(this.api.TraerTabla(this.Tabla));
     } catch (error) {
       console.error('Error al obtener la tabla:', error);
     }

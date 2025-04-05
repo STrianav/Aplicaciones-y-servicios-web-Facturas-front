@@ -1,23 +1,18 @@
 <div class="menu bg-body-tertiary p-3" [ngClass]="{ 'is-open': isOpen }">
-    <div class="ui middle aligned list" style="margin-top: 10px;">
+    <div class="ui middle aligned list mt-3">
+
         <!-- Elemento de Inicio -->
         <div class="item" (click)="onMenuSelect('inicio')">
-            <div class="content" style="font-size: 15px; cursor: pointer;">
-                <div class="header">
-                    <hr>
-                    <i class="bi bi-house"></i>Inicio
-                </div>
+            <div class="content menu-item text-secondary px-3 py-2 rounded hoverable">
+                <i class="bi bi-house me-2"></i>Inicio
             </div>
         </div>
 
+        <!-- Menú dinámico -->
         <div *ngFor="let menu of menus">
-            <!-- Si el menú es padre, muestra como título divisor -->
-            <!-- Si el menú tiene padre, muestra como un elemento de menú -->
             <div class="item" (click)="onMenuSelect(menu.url_o_Componente)">
-                <div class="content" style="font-size: 15px; cursor: pointer;">
-                    <div class="header">
-                        <i [ngClass]="menu.icono"></i>{{ menu.menu_Descripcion }}
-                    </div>
+                <div class="content menu-item text-secondary px-3 py-2 rounded hoverable">
+                    <i [ngClass]="menu.icono" class="me-2"></i>{{ menu.menu_Descripcion }}
                 </div>
             </div>
         </div>

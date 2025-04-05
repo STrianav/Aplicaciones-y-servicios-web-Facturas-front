@@ -23,16 +23,40 @@ export class FormulariodinamicoComponent {
   TablaForanea: any;
   foreignData: { [key: string]: { value: number; label: string }[] } = {};
 
-
   constructor(private fb: FormBuilder, private api: ApiService, private generalService: GeneralServiceService) { }
 
   ngOnInit(): void {
     this.createForm();
     this.loadForeignKeys();
     this.originalData = { ...this.form.value };
-
-    console.log(this.formSchema);
   }
+
+  get modalSize(): string {
+    const numFields = this.formSchema?.fields?.length || 0;
+
+    if (numFields > 12) {
+      return 'modal-xl';
+    } else if (numFields > 6) {
+      return 'modal-lg';
+    } else {
+      return ''; // tamaño normal
+    }
+  }
+
+  get columnClass(): string {
+    const numFields = this.formSchema?.fields?.length || 0;
+
+    if (numFields > 20) {
+      return 'col-12 col-md-4 col-lg-3'; // 4 columnas
+    } else if (numFields > 12) {
+      return 'col-12 col-md-6 col-lg-4'; // 3 columnas
+    } else if (numFields > 6) {
+      return 'col-12 col-md-6'; // 2 columnas
+    } else {
+      return 'col-12'; // 1 columna
+    }
+  }
+
 
   createForm(): void {
     const group: any = {};
@@ -42,19 +66,6 @@ export class FormulariodinamicoComponent {
     });
     this.form = this.fb.group(group);
   }
-
-  // castValueByType(value: any, type: string): any {
-  //   switch (type) {
-  //     case 'number':
-  //       // Verifica si el valor es numérico antes de convertir
-  //       return isNaN(Number(value)) ? value : Number(value);
-  //     case 'boolean':
-  //       return value === 'true' || value === true;
-  //     case 'string':
-  //     default:
-  //       return String(value);
-  //   }
-  // }
 
   castValueByType(value: any, type: string): any {
     switch (type) {
@@ -67,7 +78,6 @@ export class FormulariodinamicoComponent {
         return String(value);
     }
   }
-
 
   getValidators(validators?: string[]) {
     const formValidators: any[] = [];
@@ -84,28 +94,8 @@ export class FormulariodinamicoComponent {
     return formValidators;
   }
 
-  // onSave(): void {
-  //   if (this.form.valid) {
-  //     console.log(this.form.value)
-  //     this.api.CrearData(this.Tabla, this.form.value).subscribe((data) => {
-  //     }, (error) => {
-  //       if (error.status == 200) {
-  //         this.generalService.showAlert("Se guardo correctamente.", "success", true, 2500).then(() => {
-  //           this.activeModal.close();
-  //         })
-  //       } else {
-  //         this.generalService.showAlert("No se pudo guardar la información, intentalo mas tarde.", "error", false, 0)
-  //       }
-  //     });
-  //   } else {
-  //     this.form.markAllAsTouched();
-  //   }
-  // }
-
   async onSave(): Promise<void> {
     if (this.form.valid) {
-      console.log(this.form.value);
-      
       try {
         await firstValueFrom(this.api.CrearData(this.Tabla, this.form.value));
         this.generalService.showAlert("Se guardó correctamente.", "success", true, 2500).then(() => {
@@ -139,7 +129,7 @@ export class FormulariodinamicoComponent {
       }, {} as any);
 
       // 3️⃣ Obtener el primer campo clave (antes y después de la edición)
-      const firstKey = Object.keys(modifiedData)[0];
+      const firstKey = Object.keys(originalData)[0];
 
       // 4️⃣ Usar el valor original de la clave primaria para el `where`
       const whereKey = firstKey; // Clave a buscar
@@ -203,10 +193,10 @@ export class FormulariodinamicoComponent {
   // ya que mandaba muchas peticiones en al mismo tiempo y el backend a veces no alcanzaba a responder bien, 
   // y causaba errores. Ahora usamos `await` para que cada petición se procese de forma ordenada.
   // Así aseguramos que todos los datos se carguen bien y el formulario funcione completo.
- 
+
   async loadForeignKeys() {
     // Creo un array para almacenar todas las promesas
-    const promises = [];   
+    let promises: any[] = [];
     // Recorrero todos los campos y generaro promesas
     for (const field of this.formSchema.fields) {
       if (field.fk) {
@@ -222,7 +212,8 @@ export class FormulariodinamicoComponent {
           })
         );
       }
-    }    
+    }
+
     // Esperar a que todas las promesas se resuelvan
     try {
       const results = await Promise.all(promises);
@@ -233,36 +224,16 @@ export class FormulariodinamicoComponent {
     }
   }
 
-    // loadForeignKeys() {
-  //   // Simulación de carga dinámica de datos foráneos
-  //   for (const field of this.formSchema.fields) {
-  //     if (field.fk) {
-  //       console.log(field);
-  //       this.getForeignData(field.strTable).then(data => {
-  //         this.foreignData[field.name] = data;
-  //       });
-  //     }
-  //   }
-  // }
-
-  async getForeignData(table: string): Promise<any[]> {
+  async getForeignData(table: string): Promise<any> {
     try {
       if (!table) {
         throw new Error('Nombre de la tabla no definido');
       }
-      let tabla;
-      setTimeout(async () => {
-        tabla = await firstValueFrom(this.api.TraerTabla(table));
-      }, 200);
-      return tabla || [];
+      return await firstValueFrom(this.api.TraerTabla(table));
     } catch (error) {
       console.error(`Error al obtener datos de la tabla "${table}":`, error);
       return []; // o puedes lanzar el error si quieres propagarlo
     }
-  }
-
-
-  onFkChange(event: Event, field: any) {
   }
 
   // Este cambio se hace porque algunas claves foráneas no son números,
@@ -273,21 +244,25 @@ export class FormulariodinamicoComponent {
 
   formatValue(content: any): number | string {
     const keys = Object.keys(content);
+
+    if (this.Tabla === 'rol_usuario') {
+      return content[keys[0]];
+    }
+
     for (const key of keys) {
       const value = Number(content[key]);
       if (!isNaN(value)) return value;
     }
     // convierte el primer campo a string
-    return String(content[keys[0]]); 
+    return String(content[keys[0]]);
   }
 
-  // formatValue(content: any): number {
-  //   const keys = Object.keys(content);
-  //   return Number(content[keys[0]]);
-  // }
-
   formatOption(content: any): string {
-    return Object.values(content).join(' - ');
+    const filteredValues = Object.entries(content)
+      .filter(([key, _]) => !key.toLowerCase().includes('id'))
+      .map(([_, value]) => value);
+
+    return filteredValues.join(' - ');
   }
 
   cancel() {

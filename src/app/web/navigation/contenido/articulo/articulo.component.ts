@@ -23,9 +23,7 @@ export class ArticuloComponent {
 
   async TraerTabla() {
     try {
-      let data = await firstValueFrom(this.api.TraerTabla(this.Tabla));
-      this.data = data;
-      console.log('datos:', data)
+      this.data = await firstValueFrom(this.api.TraerTabla(this.Tabla));
     } catch (error) {
       console.error('Error al obtener la tabla:', error);
     }
@@ -45,6 +43,7 @@ export class ArticuloComponent {
     } else if (tipo === 'U') {
       formSchema = {
         fields: [
+          { name: 'id', label: 'id', type: 'text', value: row.id, validators: ['required'] },
           { name: 'nombre', label: 'Nombre', type: 'text', value: row.nombre, validators: ['required'] },
           { name: 'descripcion', label: 'Descripción', type: 'text', value: row.descripcion, validators: ['required'] },
           { name: 'fkidseccion', label: 'Sección', type: 'text', fk: true, value: row.fkidseccion, strTable: "seccion", validators: ['required'] },
@@ -54,11 +53,12 @@ export class ArticuloComponent {
     } else if (tipo === 'D') {
       formSchema = {
         fields: [
+          { name: 'id', label: 'id', type: 'text', value: row.id, validators: ['required'] },
           { name: 'nombre', label: 'Nombre', type: 'text', value: row.nombre, validators: ['required'] },
           { name: 'descripcion', label: 'Descripción', type: 'text', value: row.descripcion, validators: ['required'] },
           { name: 'fkidseccion', label: 'Sección', type: 'text', fk: true, value: row.fkidseccion, strTable: "seccion", validators: ['required'] },
           { name: 'fkidsubseccion', label: 'Subsección', type: 'text', fk: true, value: row.fkidsubseccion, strTable: "subseccion", validators: ['required'] }
-          ]
+        ]
       };
     }
     const modalRef = this.modal.openDynamicModal(formSchema, tipo, this.Tabla);

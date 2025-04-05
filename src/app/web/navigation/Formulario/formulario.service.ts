@@ -13,7 +13,7 @@ export class FormularioService {
 
   openDynamicModal(formSchema: any, CRUUD: 'C' | 'U' | 'D', Tabla: string): NgbModalRef {
     const modalRef = this.modalService.open(FormulariodinamicoComponent, {
-      size: 'xl', // Ajusta el tamaño según necesites
+      size: 'xl',
       backdrop: 'static'
     });
     // Pasa el JSON al componente modal

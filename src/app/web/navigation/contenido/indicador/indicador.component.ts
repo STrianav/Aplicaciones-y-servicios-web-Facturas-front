@@ -23,9 +23,7 @@ export class IndicadorComponent {
 
   async TraerTabla() {
     try {
-      let data = await firstValueFrom(this.api.TraerTabla(this.Tabla));
-      this.data = data;
-      console.log('datos:', data)
+      this.data = await firstValueFrom(this.api.TraerTabla(this.Tabla));
     } catch (error) {
       console.error('Error al obtener la tabla:', error);
     }
@@ -47,7 +45,7 @@ export class IndicadorComponent {
           { name: 'fkidsentido', label: 'Sentido', type: 'text', fk: true, value: '', strTable: "sentido", validators: ['required'] },
           { name: 'fkidfrecuencia', label: 'Frecuencia', type: 'text', fk: true, value: '', strTable: "frecuencia", validators: ['required'] },
           { name: 'fkidarticulo', label: 'Artículo', type: 'text', fk: true, value: '', strTable: "articulo", validators: ['required'] },
-          { name: 'fkidliteral', label: 'Literal',type: 'text', fk: true, value: '', strTable: "literal", validators: ['required'] },
+          { name: 'fkidliteral', label: 'Literal', type: 'text', fk: true, value: '', strTable: "literal", validators: ['required'] },
           { name: 'fkidnumeral', label: 'Numeral', type: 'text', fk: true, value: '', strTable: "numeral", validators: ['required'] },
           { name: 'fkidparagrafo', label: 'Paragrafo', type: 'text', fk: true, value: '', strTable: "paragrafo", validators: ['required'] }
         ]
@@ -66,9 +64,9 @@ export class IndicadorComponent {
           { name: 'fkidsentido', label: 'Sentido', type: 'text', fk: true, value: row.fkidsentido, strTable: "sentido", validators: ['required'] },
           { name: 'fkidfrecuencia', label: 'Frecuencia', type: 'text', fk: true, value: row.fkidfrecuencia, strTable: "frecuencia", validators: ['required'] },
           { name: 'fkidarticulo', label: 'Artículo', type: 'text', fk: true, value: row.fkidarticulo, strTable: "articulo", validators: ['required'] },
-          { name: 'fkidliteral', label: 'Literal',type: 'text', fk: true, value: row.fkidliteral, strTable: "literal", validators: ['required'] },
-          { name: 'fkidnumeral', label: 'Numeral', type: 'text', fk: true,value: row.fkidnumeral, strTable: "numeral", validators: ['required'] },
-          { name: 'fkidparagrafo', label: 'Paragrafo', type: 'text', fk: true,  value: row.fkidparagrafo, strTable: "paragrafo", validators: ['required'] }
+          { name: 'fkidliteral', label: 'Literal', type: 'text', fk: true, value: row.fkidliteral, strTable: "literal", validators: ['required'] },
+          { name: 'fkidnumeral', label: 'Numeral', type: 'text', fk: true, value: row.fkidnumeral, strTable: "numeral", validators: ['required'] },
+          { name: 'fkidparagrafo', label: 'Paragrafo', type: 'text', fk: true, value: row.fkidparagrafo, strTable: "paragrafo", validators: ['required'] }
         ]
       };
     } else if (tipo === 'D' && row) {
@@ -85,10 +83,10 @@ export class IndicadorComponent {
           { name: 'fkidsentido', label: 'Sentido', type: 'text', fk: true, value: row.fkidsentido, strTable: "sentido", validators: [''] },
           { name: 'fkidfrecuencia', label: 'Frecuencia', type: 'text', fk: true, value: row.fkidfrecuencia, strTable: "frecuencia", validators: [''] },
           { name: 'fkidarticulo', label: 'Artículo', type: 'text', fk: true, value: row.fkidarticulo, strTable: "articulo", validators: [''] },
-          { name: 'fkidliteral', label: 'Literal',type: 'text', fk: true, value: row.fkidliteral, strTable: "literal", validators: [''] },
-          { name: 'fkidnumeral', label: 'Numeral', type: 'text', fk: true,value: row.fkidnumeral, strTable: "numeral", validators: [''] },
-          { name: 'fkidparagrafo', label: 'Paragrafo', type: 'text', fk: true,  value: row.fkidparagrafo, strTable: "paragrafo", validators: [''] }
-          ]
+          { name: 'fkidliteral', label: 'Literal', type: 'text', fk: true, value: row.fkidliteral, strTable: "literal", validators: [''] },
+          { name: 'fkidnumeral', label: 'Numeral', type: 'text', fk: true, value: row.fkidnumeral, strTable: "numeral", validators: [''] },
+          { name: 'fkidparagrafo', label: 'Paragrafo', type: 'text', fk: true, value: row.fkidparagrafo, strTable: "paragrafo", validators: [''] }
+        ]
       };
     }
     const modalRef = this.modal.openDynamicModal(formSchema, tipo, this.Tabla);

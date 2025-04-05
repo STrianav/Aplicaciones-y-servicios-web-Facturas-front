@@ -1,6 +1,6 @@
 <!-- dynamic-modal.component.html -->
-<div class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade show d-block" tabindex="-1" role="dialog">
+    <div class="modal-dialog " [ngClass]="modalSize" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">{{Tabla}}</h5>
@@ -9,29 +9,30 @@
             </div>
             <div class="modal-body">
                 <form [formGroup]="form">
-                    <div *ngFor="let field of formSchema.fields" class="mb-3">
-                        <div *ngIf="!field.fk">
-                            <label [attr.for]="field.name" class="form-label disabled">{{ field.label }}</label>
-                            <input [type]="field.type" class="form-control" [formControlName]="field.name"
-                                [id]="field.name">
-                            <div *ngIf="form.get(field.name)?.invalid && form.get(field.name)?.touched"
-                                class="text-danger">
-                                <!-- Mensaje de error personalizado o genérico -->
-                                Por favor, revise el campo {{ field.label }}.
+                    <div class="row">
+                        <div *ngFor="let field of formSchema.fields" class="mb-3" [ngClass]="columnClass">
+                            <div *ngIf="!field.fk">
+                                <label [attr.for]="field.name" class="form-label disabled">{{ field.label }}</label>
+                                <input [type]="field.type" class="form-control" [formControlName]="field.name"
+                                    [id]="field.name">
+                                <div *ngIf="form.get(field.name)?.invalid && form.get(field.name)?.touched"
+                                    class="text-danger">
+                                    Por favor, revise el campo {{ field.label }}.
+                                </div>
                             </div>
-                        </div>
-                        <div *ngIf="field.fk">
-                            <label [attr.for]="field.name" class="form-label">{{ field.label }}</label>
-                            <select [formControlName]="field.name" class="form-select"
-                                (change)="onFkChange($event, field)">
-                                <option value="">Seleccione una opción</option>
-                                <ng-container *ngFor="let content of foreignData[field.name]">
-                                    <option [value]="formatValue(content)">{{ formatOption(content) }}</option>
-                                </ng-container>
-                            </select>
+                            <div *ngIf="field.fk">
+                                <label [attr.for]="field.name" class="form-label">{{ field.label }}</label>
+                                <select [formControlName]="field.name" class="form-select">
+                                    <option value="">Seleccione una opción</option>
+                                    <ng-container *ngFor="let content of foreignData[field.name]">
+                                        <option [value]="formatValue(content)">{{ formatOption(content) }}</option>
+                                    </ng-container>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </form>
+
             </div>
             <div class="modal-footer">
                 <button *ngIf="crudd === 'C'" type="button" class="btn btn-success" (click)="onSave()">Guardar</button>

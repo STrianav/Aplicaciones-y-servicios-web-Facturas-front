@@ -23,7 +23,6 @@ export class LiteralComponent {
   async TraerTabla() {
     try {
       this.data = await firstValueFrom(this.api.TraerTabla(this.Tabla));
-      console.log('Datos cargados:', this.data);
     } catch (error) {
       console.error('Error al obtener la tabla:', error);
     }

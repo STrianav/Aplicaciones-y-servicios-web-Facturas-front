@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ModuloGeneralModule } from '../../../../shared/modulo-general.module';
 import { ApiService } from '../../../../Api/api.service';
 import { FormularioService } from '../../Formulario/formulario.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-usuario',
@@ -19,12 +20,12 @@ export class UsuarioComponent {
     this.TraerTabla();
   }
 
-  TraerTabla() {
-    this.api.TraerTabla(this.Tabla).subscribe((data) => {
-      this.data = data;
-    }, (error) => {
-      console.error(error);
-    })
+  async TraerTabla() {
+    try {
+      this.data = await firstValueFrom(this.api.TraerTabla(this.Tabla));
+    } catch (error) {
+      console.error('Error al obtener la tabla:', error);
+    }
   }
 
   Crudd(tipo: 'C' | 'U' | 'D', row?: any) {

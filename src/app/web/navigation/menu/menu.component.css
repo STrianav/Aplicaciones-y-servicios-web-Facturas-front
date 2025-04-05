@@ -104,3 +104,21 @@
     margin-right: 8px;
     /* Espacio entre ícono y texto */
 }
+
+.menu-item {
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.menu-item:hover {
+    background-color: #e9ecef;
+    /* gris claro de Bootstrap */
+    color: #0d6efd;
+    /* azul Bootstrap */
+}
+
+.menu-item.active {
+    background-color: #0d6efd;
+    color: white;
+}

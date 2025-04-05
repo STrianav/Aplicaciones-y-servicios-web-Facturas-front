@@ -23,9 +23,7 @@ export class RolUsuarioComponent {
 
   async TraerTabla() {
     try {
-      let data = await firstValueFrom(this.api.TraerTabla(this.Tabla));
-      this.data = data;
-      console.log('datooooooooooooooooos',data)
+      this.data = await firstValueFrom(this.api.TraerTabla(this.Tabla));
     } catch (error) {
       console.error('Error al obtener la tabla:', error);
     }
@@ -34,25 +32,23 @@ export class RolUsuarioComponent {
   Crudd(tipo: 'C' | 'U' | 'D', row?: any) {
     let formSchema: any;
     if (tipo === 'C') {
-      console.log('datos del objeto: ', row);
-      console.log(this.data[0].dato);
       formSchema = {
         fields: [
-          { name: 'fkidrol', label: 'Rol', type: 'text', fk: true, value: '', strTable: "rol", validators: ['required'] },      
+          { name: 'fkidrol', label: 'Rol', type: 'text', fk: true, value: '', strTable: "rol", validators: ['required'] },
           { name: 'fkemail', label: 'Email Usuario', type: 'text', fk: true, value: '', strTable: "usuario", validators: ['required'] },
         ]
       };
     } else if (tipo === 'U' && row) {
       formSchema = {
         fields: [
-          { name: 'fkidrol', label: 'Rol', type: 'text', fk: true, value: row.fkidrol, strTable: "rol", validators: ['required'] },     
+          { name: 'fkidrol', label: 'Rol', type: 'text', fk: true, value: row.fkidrol, strTable: "rol", validators: ['required'] },
           { name: 'fkemail', label: 'Email Usuario', type: 'text', fk: true, value: row.fkemail, strTable: "usuario", validators: ['required'] },
         ]
       };
     } else if (tipo === 'D' && row) {
       formSchema = {
         fields: [
-          { name: 'fkidrol', label: 'Rol', type: 'text', fk: true, value: row.fkidrol, strTable: "rol", validators: [''] },     
+          { name: 'fkidrol', label: 'Rol', type: 'text', fk: true, value: row.fkidrol, strTable: "rol", validators: [''] },
           { name: 'fkemail', label: 'Email Usuario', type: 'text', fk: true, value: row.fkemail, strTable: "usuario", validators: [''] },
         ]
       };

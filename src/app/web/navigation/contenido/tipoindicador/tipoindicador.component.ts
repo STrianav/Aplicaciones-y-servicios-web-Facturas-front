@@ -23,8 +23,7 @@ export class TipoindicadorComponent {
 
   async TraerTabla() {
     try {
-      let data = await firstValueFrom(this.api.TraerTabla(this.Tabla));
-      this.data = data;
+      this.data = await firstValueFrom(this.api.TraerTabla(this.Tabla));
     } catch (error) {
       console.error('Error al obtener la tabla:', error);
     }
@@ -41,13 +40,13 @@ export class TipoindicadorComponent {
     } else if (tipo === 'U') {
       formSchema = {
         fields: [
-          { name: 'nombre', label: 'Nombre', type: 'text', value: '', validators: ['required'] }
+          { name: 'nombre', label: 'Nombre', type: 'text', value: row.nombre, validators: ['required'] }
         ]
       };
     } else if (tipo === 'D') {
       formSchema = {
         fields: [
-          { name: 'nombre', label: 'Nombre', type: 'text', value: '', validators: ['required'] }
+          { name: 'nombre', label: 'Nombre', type: 'text', value: row.nombre, validators: ['required'] }
         ]
       };
     }
