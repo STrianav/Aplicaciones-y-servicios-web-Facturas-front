@@ -1,1 +1,57 @@
-<p>indicador works!</p>
+<div class="container mt-4">
+    <h3 class="mb-3">Indicadores</h3>
+    <button class="btn btn-outline-primary" (click)="Crudd('C')">Nuevo</button>
+
+    <!-- Contenedor con scroll horizontal -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover custom-table mt-3">
+            <thead class="table-dark">
+                <tr>
+                    <th>Acciones</th>
+                    <th>Id</th>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Objetivo</th>
+                    <th>Alcance</th>
+                    <th>Fórmula</th>
+                    <th>Tipo Indicador</th>
+                    <th>Unidad Medición</th>
+                    <th>Meta</th>
+                    <th>Sentido</th>
+                    <th>Frecuencia</th>
+                    <th>Artículo</th>
+                    <th>Literal</th>
+                    <th>Numeral</th>
+                    <th>Parágrafo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of data">
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary me-1" (click)="Crudd('U', item)">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger" (click)="Crudd('D', item)">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.codigo }}</td>
+                    <td>{{ item.nombre }}</td>
+                    <td>{{ item.objetivo }}</td>
+                    <td>{{ item.alcance }}</td>
+                    <td>{{ item.formula }}</td>
+                    <td>{{ item.fkidtipoindicador }}</td>
+                    <td>{{ item.fkidunidadmedicion }}</td>
+                    <td>{{ item.meta }}</td>
+                    <td>{{ item.fkidsentido }}</td>
+                    <td>{{ item.fkidfrecuencia }}</td>
+                    <td>{{ item.fkidarticulo }}</td>
+                    <td>{{ item.fkidliteral }}</td>
+                    <td>{{ item.fkidnumeral }}</td>
+                    <td>{{ item.fkidparagrafo }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

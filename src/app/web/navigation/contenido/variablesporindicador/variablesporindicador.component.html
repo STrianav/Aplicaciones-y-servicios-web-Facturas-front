@@ -1,1 +1,39 @@
-<p>variablesporindicador works!</p>
+<div class="container mt-4">
+    <h3 class="mb-3">Variables Por Indicador</h3>
+    <button class="btn btn-outline-primary" (click)="Crudd('C')">Nuevo</button>
+
+    <!-- Contenedor con scroll horizontal -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover custom-table">
+            <thead class="table-dark">
+                <tr>
+                    <th>Acciones</th>
+                    <th>Id</th>
+                    <th>Variable</th>
+                    <th>Indicador</th>
+                    <th>Dato</th>
+                    <th>Email</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of data">
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary me-1" (click)="Crudd('U', item)">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger" (click)="Crudd('D', item)">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.fkidvariable }}</td>
+                    <td>{{ item.fkidindicador }}</td>
+                    <td>{{ item.dato }}</td>
+                    <td>{{ item.fkemailusuario }}</td>
+                    <td>{{ item.fechacalculo }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
