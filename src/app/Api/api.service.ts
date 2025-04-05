@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class ApiService {
 
   private readonly api = '';
-  private readonly apiLocal = 'https://localhost:7043/api/p/';
+  private readonly apiLocal = 'https://localhost:7043/api/abc/';
 
   constructor(private http: HttpClient) { }
 

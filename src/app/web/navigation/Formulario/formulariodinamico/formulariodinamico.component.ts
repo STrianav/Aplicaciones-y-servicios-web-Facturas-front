@@ -177,10 +177,21 @@ export class FormulariodinamicoComponent {
   }
 
   async getForeignData(table: string): Promise<any[]> {
-    // Aquí simulas (o llamás a un servicio real) para obtener los datos
-    const tabla = await firstValueFrom(this.api.TraerTabla(table));
-    return Promise.resolve(tabla || []);
+    try {
+      if (!table) {
+        throw new Error('Nombre de la tabla no definido');
+      }
+      let tabla;
+      setTimeout(async () => {
+        tabla = await firstValueFrom(this.api.TraerTabla(table));
+      }, 200);
+      return tabla || [];
+    } catch (error) {
+      console.error(`Error al obtener datos de la tabla "${table}":`, error);
+      return []; // o puedes lanzar el error si quieres propagarlo
+    }
   }
+
 
   onFkChange(event: Event, field: any) {
   }
