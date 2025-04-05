@@ -1,0 +1,12 @@
+/* Contenedor con scroll horizontal solo en pantallas XL */
+@media (min-width: 1200px) {
+    .table-responsive {
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    .custom-table {
+        width: 100%;
+        min-width: 1200px; 
+    }
+}
