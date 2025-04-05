@@ -5,6 +5,7 @@ export interface FormField {
     value: any;
     fk: boolean;
     strTable: string;
+    columna: string;
     validators?: string[];
 }
 

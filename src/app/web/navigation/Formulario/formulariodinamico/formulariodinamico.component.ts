@@ -43,6 +43,19 @@ export class FormulariodinamicoComponent {
     this.form = this.fb.group(group);
   }
 
+  // castValueByType(value: any, type: string): any {
+  //   switch (type) {
+  //     case 'number':
+  //       // Verifica si el valor es numérico antes de convertir
+  //       return isNaN(Number(value)) ? value : Number(value);
+  //     case 'boolean':
+  //       return value === 'true' || value === true;
+  //     case 'string':
+  //     default:
+  //       return String(value);
+  //   }
+  // }
+
   castValueByType(value: any, type: string): any {
     switch (type) {
       case 'number':
@@ -71,19 +84,42 @@ export class FormulariodinamicoComponent {
     return formValidators;
   }
 
-  onSave(): void {
+  // onSave(): void {
+  //   if (this.form.valid) {
+  //     console.log(this.form.value)
+  //     this.api.CrearData(this.Tabla, this.form.value).subscribe((data) => {
+  //     }, (error) => {
+  //       if (error.status == 200) {
+  //         this.generalService.showAlert("Se guardo correctamente.", "success", true, 2500).then(() => {
+  //           this.activeModal.close();
+  //         })
+  //       } else {
+  //         this.generalService.showAlert("No se pudo guardar la información, intentalo mas tarde.", "error", false, 0)
+  //       }
+  //     });
+  //   } else {
+  //     this.form.markAllAsTouched();
+  //   }
+  // }
+
+  async onSave(): Promise<void> {
     if (this.form.valid) {
-      console.log(this.form.value)
-      this.api.CrearData(this.Tabla, this.form.value).subscribe((data) => {
-      }, (error) => {
-        if (error.status == 200) {
-          this.generalService.showAlert("Se guardo correctamente.", "success", true, 2500).then(() => {
+      console.log(this.form.value);
+      
+      try {
+        await firstValueFrom(this.api.CrearData(this.Tabla, this.form.value));
+        this.generalService.showAlert("Se guardó correctamente.", "success", true, 2500).then(() => {
+          this.activeModal.close();
+        });
+      } catch (error: any) {
+        if (error.status === 200) {
+          this.generalService.showAlert("Se guardó correctamente.", "success", true, 2500).then(() => {
             this.activeModal.close();
-          })
+          });
         } else {
-          this.generalService.showAlert("No se pudo guardar la información, intentalo mas tarde.", "error", false, 0)
+          this.generalService.showAlert("No se pudo guardar la información, inténtalo más tarde.", "error", false, 0);
         }
-      });
+      }
     } else {
       this.form.markAllAsTouched();
     }
@@ -130,8 +166,6 @@ export class FormulariodinamicoComponent {
     }
   }
 
-
-
   onDelete(): void {
     if (this.form.valid) {
       // 1️⃣ Obtener los valores originales del formulario
@@ -164,17 +198,52 @@ export class FormulariodinamicoComponent {
     }
   }
 
-  loadForeignKeys() {
-    // Simulación de carga dinámica de datos foráneos
+
+  // En el caso de variablesporindicador y indicadores antes este método no esperaba las respuestas, 
+  // ya que mandaba muchas peticiones en al mismo tiempo y el backend a veces no alcanzaba a responder bien, 
+  // y causaba errores. Ahora usamos `await` para que cada petición se procese de forma ordenada.
+  // Así aseguramos que todos los datos se carguen bien y el formulario funcione completo.
+ 
+  async loadForeignKeys() {
+    // Creo un array para almacenar todas las promesas
+    const promises = [];   
+    // Recorrero todos los campos y generaro promesas
     for (const field of this.formSchema.fields) {
       if (field.fk) {
-        console.log(field);
-        this.getForeignData(field.strTable).then(data => {
-          this.foreignData[field.name] = data;
-        });
+        // Añado cada promesa al array
+        promises.push(
+          await this.getForeignData(field.strTable).then(data => {
+            this.foreignData[field.name] = data;
+            return { field: field.name, data };
+          }).catch(error => {
+            console.error(`Error cargando datos para ${field.name}:`, error);
+            this.foreignData[field.name] = [];
+            return { field: field.name, error };
+          })
+        );
       }
+    }    
+    // Esperar a que todas las promesas se resuelvan
+    try {
+      const results = await Promise.all(promises);
+      return results;
+    } catch (error) {
+      console.error('Error al cargar datos:', error);
+      return [];
     }
   }
+
+    // loadForeignKeys() {
+  //   // Simulación de carga dinámica de datos foráneos
+  //   for (const field of this.formSchema.fields) {
+  //     if (field.fk) {
+  //       console.log(field);
+  //       this.getForeignData(field.strTable).then(data => {
+  //         this.foreignData[field.name] = data;
+  //       });
+  //     }
+  //   }
+  // }
 
   async getForeignData(table: string): Promise<any[]> {
     // Aquí simulas (o llamás a un servicio real) para obtener los datos
@@ -185,12 +254,26 @@ export class FormulariodinamicoComponent {
   onFkChange(event: Event, field: any) {
   }
 
-  formatValue(content: any): number {
+  // Este cambio se hace porque algunas claves foráneas no son números,
+  // sino cadenas (como email). Los <select> siempre envían
+  // strings, así que hay que aceptar ambos tipos para evitar que salga `NaN`.
+  // Ya que se estaban generando errores al insertar una llave foránea tipo email,
+  // porque el valor se convertía en `NaN` al enviarlo al backend.
+
+  formatValue(content: any): number | string {
     const keys = Object.keys(content);
-    return Number(content[keys[0]]);
+    for (const key of keys) {
+      const value = Number(content[key]);
+      if (!isNaN(value)) return value;
+    }
+    // convierte el primer campo a string
+    return String(content[keys[0]]); 
   }
 
-
+  // formatValue(content: any): number {
+  //   const keys = Object.keys(content);
+  //   return Number(content[keys[0]]);
+  // }
 
   formatOption(content: any): string {
     return Object.values(content).join(' - ');
