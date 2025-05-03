@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -28,12 +28,14 @@ export class ApiService {
     return this.http.delete(`${this.apiLocal}${Tabla}/${where}/${valor}`)
   }
 
-  Login(data: any): Observable<any> {
-    return this.http.post(`${this.apiLocal}login`, data);
+  VerificarContrasena(email: string, contrasena: string): Observable<any> {
+    const url = `${this.apiLocal}usuario/verificar-contrasena`;
+    const body = {
+      campoUsuario: "email",
+      campoContrasena: "contrasena",
+      valorUsuario: email,
+      valorContrasena: contrasena
+    }; 
+    return this.http.post(url, body);
   }
-
-   // Método para ejecutar procedimientos almacenados
-  //   EjecutarProcedimiento(procedureName: string, body: any): Observable<any> {
-  //   return this.http.post(`${this.apiLocal}${procedureName}`, body);
-  // }
 }

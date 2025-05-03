@@ -32,8 +32,6 @@ export class VariablesporindicadorComponent {
   Crudd(tipo: 'C' | 'U' | 'D', row?: any) {
     let formSchema: any;
     if (tipo === 'C') {
-      console.log('datos del objeto: ', row);
-      console.log(this.data[0].dato);
       formSchema = {
         fields: [
           { name: 'fkidvariable', label: 'Variable', type: 'text', fk: true, value: '', strTable: "variable", validators: ['required'] },
