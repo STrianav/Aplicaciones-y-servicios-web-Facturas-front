@@ -1,4 +1,4 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { ModuloGeneralModule } from '../../../shared/modulo-general.module';
 import { Router } from '@angular/router';
 import { RespuestaMenu } from '../../../models/Menu';
@@ -9,10 +9,19 @@ import { RespuestaMenu } from '../../../models/Menu';
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.css'
 })
-export class MenuComponent {
+export class MenuComponent implements OnInit {
   @Input() isOpen: boolean = false;
+  rutasPermitidas: string[] = [];
 
   constructor(private router: Router) { }
+
+  ngOnInit(): void {
+    this.rutasPermitidas = JSON.parse(sessionStorage.getItem('rutas') || '[]');
+  }
+
+  mostrarMenu(ruta: string): boolean {
+    return this.rutasPermitidas.includes(ruta);
+  }
 
   menus: RespuestaMenu[] = [
     {

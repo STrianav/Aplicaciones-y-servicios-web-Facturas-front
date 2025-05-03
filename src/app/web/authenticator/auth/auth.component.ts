@@ -6,6 +6,7 @@ import { firstValueFrom } from 'rxjs';
 import { ApiServiceAuthService } from '../../../Api/api.service-auth.service';
 import { LoginModel } from '../../../models/LoginModel';
 import { ModuloGeneralModule } from '../../../shared/modulo-general.module';
+import { ApiService } from '../../../Api/api.service';
 
 @Component({
   selector: 'app-auth',
@@ -17,10 +18,13 @@ import { ModuloGeneralModule } from '../../../shared/modulo-general.module';
 export class AuthComponent implements OnInit {
   formLogin: FormGroup = new FormGroup({});
   loginModel: LoginModel = new LoginModel();
+  datosUsuario: string = '';
+  contraseña: string = '';
 
   constructor(
     private formBuilder: FormBuilder,
     private apiServiceAuthService: ApiServiceAuthService,
+    private apiService: ApiService,
     private router: Router,
     private toastr: ToastrService
   ) { }
@@ -29,51 +33,51 @@ export class AuthComponent implements OnInit {
     this.validateForm(this.loginModel);
   }
 
+  async verificarContrasena(email: string, contrasena: string): Promise<any> {
+    try {
+      return await firstValueFrom(this.apiService.VerificarContrasena(email, contrasena));
+    } catch (error) {
+      console.error('Error al verificar la contraseña:', error);
+    }
+  }
+
   async Login() {
     if (this.formLogin.valid) {
-      try {
-        // Realizo la petición:
-        let response = await firstValueFrom(this.apiServiceAuthService.login(this.formLogin.value));
-        // Verifico que la respuesta contiene un token:
-        if (!response || !response.token) {
-          this.toastr.error('No se recibió un token válido', 'Error', {
+      this.loginModel = this.formLogin.value as LoginModel;
+      let contrasenaValida = await this.verificarContrasena(this.loginModel.email, this.loginModel.contrasena);
+      if (contrasenaValida) {
+        try {
+          let response = await firstValueFrom(this.apiServiceAuthService.login(this.loginModel));
+
+          if (!response || !response.token) {
+            this.toastr.error('No se recibió un token válido', 'Error', {
+              timeOut: 3000, progressBar: true, tapToDismiss: false,
+            });
+            return;
+          }
+          sessionStorage.setItem('token', response.token);
+          sessionStorage.setItem('email', response.email);
+          sessionStorage.setItem('roles', JSON.stringify(response.roles));
+          sessionStorage.setItem('rutas', JSON.stringify(response.rutas));
+
+          this.toastr.success('Has iniciado sesión', 'Éxito', {
             timeOut: 3000, progressBar: true, tapToDismiss: false,
           });
-          return;
+          // Redirijo a la página inicial:
+          this.router.navigate(['navegador/inicio']);
+        } catch (error) {
+          console.error('Error de autenticación:', error);
         }
-        // Guardo el token en => localStorage:
-        localStorage.setItem('token', response.token);
-        // Obtengo el email que se ingreso en el formulario de login:
-        let email = this.formLogin.get('email')?.value || '';
-        // Realizo petición para obtener el rol del usuario:
-        let rolResponse = await firstValueFrom(this.apiServiceAuthService.obtenerRol(email));
-        // Verifico que se recibió un rol:
-        if (!rolResponse || !rolResponse.rol) {
-          this.toastr.error('No se pudo obtener el rol del usuario', 'Error', {
-            timeOut: 3000, progressBar: true, tapToDismiss: false,
-          });
-          return;
-        }
-        // Guardo el rol y el email => localStorage, para uso posterior:
-        localStorage.setItem('rol', rolResponse.rol);
-        localStorage.setItem('email', email);
-        // Muestro mensaje de éxito:
-        this.toastr.success(`Has iniciado sesión como: ${rolResponse.rol}`, 'Éxito', {
-          timeOut: 3000, progressBar: true, tapToDismiss: false,
-        });
-        // Redirijo a la página inicial:
-        this.router.navigate(['navegador/inicio']);
-      } catch (error) {
-        // Mostramos mensaje en caso de error:
+      } else {
         this.toastr.error('Correo o contraseña incorrectos.', 'Error', {
-          timeOut: 3000, progressBar: true, tapToDismiss: false,
+          timeOut: 3000, progressBar: true, tapToDismiss: false
         });
-        console.error('Error de autenticación:', error);
       }
     } else {
       this.showValidationMessages();
     }
   }
+
 
   showValidationMessages() {
     let controlMessages: any = {

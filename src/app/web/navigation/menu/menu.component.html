@@ -8,13 +8,15 @@
             </div>
         </div>
 
-        <!-- Menú dinámico -->
-        <div class="item" *ngFor="let menu of menus">
-            <div  (click)="onMenuSelect(menu.url_o_Componente)">
-                <div class="content menu-item text-secondary px-3 py-2 rounded hoverable">
-                    <i [ngClass]="menu.icono" class="me-2"></i>{{ menu.menu_Descripcion }}
+        <!-- Menú dinámico con filtro de permisos -->
+        <ng-container *ngFor="let menu of menus">
+            <div class="item" *ngIf="mostrarMenu(menu.url_o_Componente)">
+                <div (click)="onMenuSelect(menu.url_o_Componente)">
+                    <div class="content menu-item text-secondary px-3 py-2 rounded hoverable">
+                        <i [ngClass]="menu.icono" class="me-2"></i>{{ menu.menu_Descripcion }}
+                    </div>
                 </div>
             </div>
-        </div>
+        </ng-container>
     </div>
 </div>

@@ -15,8 +15,8 @@ export const authInterceptor: HttpInterceptorFn = (
     request.url.includes('/obtenerRol')) {
     return next(request);
   } // => Esto se hace porque generalmente no se requiere un token de autenticación para las solicitudes de inicio de sesión 
-  // Obtiene el token de autenticación del almacenamiento local del navegador.
-  let token = localStorage.getItem('token'); 
+  // Obtiene el token de autenticación del sessionStorage del navegador.
+  const token = sessionStorage.getItem('token');
   if (token) {
     // Se está clonando la solicitud (request) y creando una nueva instancia de HttpRequest (authReq).
     let authReq = request.clone({ // Si el token está presente, se clona la solicitud original.
