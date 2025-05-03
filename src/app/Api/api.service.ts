@@ -27,4 +27,13 @@ export class ApiService {
   EliminarData(Tabla: string, where: string, valor: string): Observable<any> {
     return this.http.delete(`${this.apiLocal}${Tabla}/${where}/${valor}`)
   }
+
+  Login(data: any): Observable<any> {
+    return this.http.post(`${this.apiLocal}login`, data);
+  }
+
+   // Método para ejecutar procedimientos almacenados
+  //   EjecutarProcedimiento(procedureName: string, body: any): Observable<any> {
+  //   return this.http.post(`${this.apiLocal}${procedureName}`, body);
+  // }
 }
