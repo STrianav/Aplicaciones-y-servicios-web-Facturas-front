@@ -35,7 +35,15 @@ export class ApiService {
       campoContrasena: "contrasena",
       valorUsuario: email,
       valorContrasena: contrasena
-    }; 
+    };
     return this.http.post(url, body);
+  }
+
+  validarToken(): Observable<any> {
+    return this.http.get(`${this.apiLocal}1/validar`);
+  }
+
+  GuardarIndicador(indicador: any): Observable<any> {
+    return this.http.post(`https://localhost:7043/api/Indicador`, indicador);
   }
 }

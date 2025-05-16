@@ -13,17 +13,33 @@ import { ModuloGeneralModule } from '../../../../shared/modulo-general.module';
 export class IndicadorComponent {
   data: any;
   Tabla: string = 'indicador';
+  rolesJson = sessionStorage.getItem("roles");
+  roles: string[] = []
+  filtroTexto: string = '';
+  dataFiltrada: any[] = [];
 
   constructor(private api: ApiService,
     private modal: FormularioService) { }
 
   ngOnInit(): void {
     this.TraerTabla();
+    this.roles = this.rolesJson ? JSON.parse(this.rolesJson) : [];
+  }
+
+  filtrarTabla() {
+    const texto = this.filtroTexto.toLowerCase();
+
+    this.dataFiltrada = this.data.filter((item: { [s: string]: unknown; } | ArrayLike<unknown>) =>
+      Object.values(item).some(valor =>
+        valor?.toString().toLowerCase().includes(texto)
+      )
+    );
   }
 
   async TraerTabla() {
     try {
       this.data = await firstValueFrom(this.api.TraerTabla(this.Tabla));
+      this.dataFiltrada = this.data;
     } catch (error) {
       console.error('Error al obtener la tabla:', error);
     }
@@ -32,24 +48,12 @@ export class IndicadorComponent {
   Crudd(tipo: 'C' | 'U' | 'D', row?: any) {
     let formSchema: any;
     if (tipo === 'C') {
-      formSchema = {
-        fields: [
-          { name: 'codigo', label: 'Código', type: 'text', value: '', validators: ['required'] },
-          { name: 'nombre', label: 'Nombre', type: 'text', value: '', validators: ['required'] },
-          { name: 'objetivo', label: 'Objetivo', type: 'text', value: '', validators: ['required'] },
-          { name: 'alcance', label: 'Alcance', type: 'text', value: '', validators: ['required'] },
-          { name: 'formula', label: 'Fórmula', type: 'text', value: '', validators: ['required'] },
-          { name: 'fkidtipoindicador', label: 'Tipo de Indicador ', type: 'text', fk: true, value: '', strTable: "tipoindicador", validators: ['required'] },
-          { name: 'fkidunidadmedicion', label: 'Unidad de Medición', type: 'text', fk: true, value: '', strTable: "unidadmedicion", validators: ['required'] },
-          { name: 'meta', label: 'Meta', type: 'text', value: '', validators: ['required'] },
-          { name: 'fkidsentido', label: 'Sentido', type: 'text', fk: true, value: '', strTable: "sentido", validators: ['required'] },
-          { name: 'fkidfrecuencia', label: 'Frecuencia', type: 'text', fk: true, value: '', strTable: "frecuencia", validators: ['required'] },
-          { name: 'fkidarticulo', label: 'Artículo', type: 'text', fk: true, value: '', strTable: "articulo", validators: ['required'] },
-          { name: 'fkidliteral', label: 'Literal', type: 'text', fk: true, value: '', strTable: "literal", validators: ['required'] },
-          { name: 'fkidnumeral', label: 'Numeral', type: 'text', fk: true, value: '', strTable: "numeral", validators: ['required'] },
-          { name: 'fkidparagrafo', label: 'Paragrafo', type: 'text', fk: true, value: '', strTable: "paragrafo", validators: ['required'] }
-        ]
-      };
+      const result = this.modal.openModalIndicador();
+      result.result.then((data) => {
+        if (data)
+          this.TraerTabla();
+      })
+      return;
     } else if (tipo === 'U' && row) {
       formSchema = {
         fields: [

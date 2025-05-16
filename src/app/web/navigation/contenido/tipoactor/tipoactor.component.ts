@@ -13,17 +13,33 @@ import { ModuloGeneralModule } from '../../../../shared/modulo-general.module';
 export class TipoactorComponent {
   data: any;
   Tabla: string = 'tipoactor';
+  rolesJson = sessionStorage.getItem("roles");
+  roles: string[] = []
+  filtroTexto: string = '';
+  dataFiltrada: any[] = [];
 
   constructor(private api: ApiService,
     private modal: FormularioService) { }
 
   ngOnInit(): void {
     this.TraerTabla();
+    this.roles = this.rolesJson ? JSON.parse(this.rolesJson) : [];
+  }
+
+  filtrarTabla() {
+    const texto = this.filtroTexto.toLowerCase();
+
+    this.dataFiltrada = this.data.filter((item: { [s: string]: unknown; } | ArrayLike<unknown>) =>
+      Object.values(item).some(valor =>
+        valor?.toString().toLowerCase().includes(texto)
+      )
+    );
   }
 
   async TraerTabla() {
     try {
       this.data = await firstValueFrom(this.api.TraerTabla(this.Tabla));
+      this.dataFiltrada = this.data;
     } catch (error) {
       console.error('Error al obtener la tabla:', error);
     }

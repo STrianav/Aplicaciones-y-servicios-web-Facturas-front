@@ -13,22 +13,37 @@ import { ModuloGeneralModule } from '../../../../shared/modulo-general.module';
 export class FuenteComponent {
   data: any;
   Tabla: string = 'fuente';
+  rolesJson = sessionStorage.getItem("roles");
+  roles: string[] = []
+  filtroTexto: string = '';
+  dataFiltrada: any[] = [];
 
   constructor(private api: ApiService,
     private modal: FormularioService) { }
 
   ngOnInit(): void {
     this.TraerTabla();
+    this.roles = this.rolesJson ? JSON.parse(this.rolesJson) : [];
+  }
+
+  filtrarTabla() {
+    const texto = this.filtroTexto.toLowerCase();
+
+    this.dataFiltrada = this.data.filter((item: { [s: string]: unknown; } | ArrayLike<unknown>) =>
+      Object.values(item).some(valor =>
+        valor?.toString().toLowerCase().includes(texto)
+      )
+    );
   }
 
   async TraerTabla() {
     try {
       this.data = await firstValueFrom(this.api.TraerTabla(this.Tabla));
+      this.dataFiltrada = this.data;
     } catch (error) {
       console.error('Error al obtener la tabla:', error);
     }
   }
-
   Crudd(tipo: 'C' | 'U' | 'D', row?: any) {
     let formSchema: any;
     if (tipo === 'C') {

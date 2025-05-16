@@ -1,6 +1,9 @@
 <div class="container mt-4">
     <h3 class="mb-3">Sub Sección</h3>
-    <button class="btn btn-outline-primary" (click)="Crudd('C')">Nuevo</button>
+    <input type="text" class="form-control mb-3" placeholder="Buscar indicador..." [(ngModel)]="filtroTexto"
+        (input)="filtrarTabla()" />
+
+    <button class="btn btn-outline-primary" (click)="Crudd('C')" *ngIf="roles.includes('admin')">Nuevo</button>
     <table class="table table-hover">
         <thead class="table-dark">
             <tr>
@@ -10,13 +13,14 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of data">
+            <tr *ngFor="let item of dataFiltrada">
                 <td>
-                    <button class="btn btn-sm btn-outline-primary me-1" (click)="Crudd('U', item)">
+                    <button class="btn btn-sm btn-outline-primary me-1" (click)="Crudd('U', item)"
+                        *ngIf="roles.includes('admin') || roles.includes('Validador')">
                         <i class="bi bi-pencil"></i>
                     </button>
-                    <!-- Botón para eliminar -->
-                    <button class="btn btn-sm btn-outline-danger" (click)="Crudd('D', item)">
+                    <button class="btn btn-sm btn-outline-danger" (click)="Crudd('D', item)"
+                        *ngIf="roles.includes('admin')">
                         <i class="bi bi-trash"></i>
                     </button>
                 </td>
