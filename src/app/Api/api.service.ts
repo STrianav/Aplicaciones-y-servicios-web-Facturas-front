@@ -46,4 +46,9 @@ export class ApiService {
   GuardarIndicador(indicador: any): Observable<any> {
     return this.http.post(`https://localhost:7043/api/Indicador`, indicador);
   }
+
+  //Consultas 
+  Consultas(consulta: string): Observable<any> {
+    return this.http.get(`https://localhost:7043/api/PIndicadores/indicador/consulta/${consulta}`)
+  }
 }

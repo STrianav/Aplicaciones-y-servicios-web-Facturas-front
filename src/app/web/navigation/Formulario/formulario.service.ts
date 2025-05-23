@@ -3,6 +3,7 @@ import { FormulariodinamicoComponent } from './formulariodinamico/formulariodina
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormField } from '../../../models/FormularioModal';
 import { ModalIndicadorComponent } from '../contenido/indicador/Modal-indicador/Modal-indicador.component';
+import { ConsultasComponent } from '../contenido/indicador/Consultas/Consultas.component';
 
 
 
@@ -21,6 +22,17 @@ export class FormularioService {
     modalRef.componentInstance.formSchema = formSchema;
     modalRef.componentInstance.crudd = CRUUD;
     modalRef.componentInstance.Tabla = Tabla;
+    return modalRef;
+  }
+
+  openConsultas(data: any, Consulta: string): NgbModalRef {
+    const modalRef = this.modalService.open(ConsultasComponent, {
+      size: 'xl',
+      backdrop: 'static'
+    });
+    // Pasa el JSON al componente modal
+    modalRef.componentInstance.data = data;
+    modalRef.componentInstance.Consulta = Consulta;
     return modalRef;
   }
 

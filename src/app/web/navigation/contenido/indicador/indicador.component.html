@@ -1,5 +1,19 @@
 <div class="container mt-4">
     <h3 class="mb-3">Indicadores</h3>
+
+    <div style="display: flex; margin-bottom: 26px; gap: 7px; flex-wrap: wrap;">
+        <button class="btn btn-outline-primary" (click)="Consultas('indicadores-con-detalle')">indicadores con
+            detalle</button>
+        <button class="btn btn-outline-primary" (click)="Consultas('indicadores-representacion')">indicadores
+            representacion</button>
+        <button class="btn btn-outline-primary" (click)="Consultas('indicadores-actores')">indicadores actores</button>
+        <button class="btn btn-outline-primary" (click)="Consultas('indicadores-fuentes')">indicadores fuentes</button>
+        <button class="btn btn-outline-primary" (click)="Consultas('indicadores-variables')">indicadores
+            variables</button>
+        <button class="btn btn-outline-primary" (click)="Consultas('indicadores-resultados')">indicadores
+            resultados</button>
+    </div>
+
     <input type="text" class="form-control mb-3" placeholder="Buscar indicador..." [(ngModel)]="filtroTexto"
         (input)="filtrarTabla()" />
 

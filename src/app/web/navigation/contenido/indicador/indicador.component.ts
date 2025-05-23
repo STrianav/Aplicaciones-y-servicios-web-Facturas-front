@@ -99,5 +99,10 @@ export class IndicadorComponent {
       this.TraerTabla();
     });
   }
+
+  async Consultas(consulta: string) {
+    const data = await firstValueFrom(this.api.Consultas(consulta))
+    this.modal.openConsultas(data, consulta)
+  }
 }
 
