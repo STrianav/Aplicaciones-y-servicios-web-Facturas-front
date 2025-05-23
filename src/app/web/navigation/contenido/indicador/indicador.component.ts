@@ -3,6 +3,7 @@ import { firstValueFrom } from 'rxjs';
 import { FormularioService } from '../../Formulario/formulario.service';
 import { ApiService } from '../../../../Api/api.service';
 import { ModuloGeneralModule } from '../../../../shared/modulo-general.module';
+import { GeneralServiceService } from '../../../../GeneralService';
 
 @Component({
   selector: 'app-indicador',
@@ -19,7 +20,7 @@ export class IndicadorComponent {
   dataFiltrada: any[] = [];
 
   constructor(private api: ApiService,
-    private modal: FormularioService) { }
+    private modal: FormularioService, private general: GeneralServiceService) { }
 
   ngOnInit(): void {
     this.TraerTabla();
@@ -101,8 +102,14 @@ export class IndicadorComponent {
   }
 
   async Consultas(consulta: string) {
-    const data = await firstValueFrom(this.api.Consultas(consulta))
-    this.modal.openConsultas(data, consulta)
+    try {
+      const data: any[] = await firstValueFrom(this.api.Consultas(consulta))
+      if (data.length > 0)
+        this.modal.openConsultas(data, consulta)
+    }
+    catch {
+      this.general.showAlert("En este momento no se puede mostrar la información", "info", false, 3000);
+    }
   }
 }
 
